@@ -24,9 +24,9 @@ class SmartphoneExporter extends Exporter
         return [
             ExportColumn::make('id')->label('ID'),
             ExportColumn::make('category_id')->label('Category ID'),
+            ExportColumn::make('brand_id')->label('Brand ID'),
             ExportColumn::make('name')->label('Name'),
             ExportColumn::make('description')->label('Description'),
-            ExportColumn::make('brand_id')->label('Brand ID'),
             ExportColumn::make('price')->label('Price'),
             ExportColumn::make('release_year')->label('Release Year'),
             ExportColumn::make('sim_count')->label('SIM Count'),
@@ -67,7 +67,7 @@ class SmartphoneExporter extends Exporter
 
     public static function exportToXml(): BinaryFileResponse
     {
-        $smartphones = Smartphone::skip(2)->take(2)->get();
+        $smartphones = Smartphone::limit(2)->get();
 
         $xml = new SimpleXMLElement('<smartphones/>');
 
@@ -98,7 +98,7 @@ class SmartphoneExporter extends Exporter
 
     public static function exportToYaml(): BinaryFileResponse
     {
-        $smartphones = Smartphone::skip(4)->take(2)->get();
+        $smartphones = Smartphone::limit(2)->get();
 
         $smartphoneArray = $smartphones->map(function ($smartphone) {
             return [
@@ -196,15 +196,16 @@ class SmartphoneExporter extends Exporter
         
             foreach ($rows as $row) {
                 $smartphone = new Smartphone();
-                $smartphone->name = $row[2];
-                $smartphone->description = $row[3];
-                $smartphone->brand_id = $row[4];
-                $smartphone->price = $row[5];
-                $smartphone->release_year = $row[6];
-                $smartphone->sim_count = $row[7];
-                $smartphone->memory_options = $row[8];
-                $smartphone->color_options = $row[9];
-                $smartphone->image_url = $row[10];
+                $smartphone->category_id = $row[1]; // Category ID
+                $smartphone->brand_id = $row[2]; // Brand ID
+                $smartphone->name = $row[3]; // Name
+                $smartphone->description = $row[4]; // Description
+                $smartphone->price = $row[5]; // Price
+                $smartphone->release_year = $row[6]; // Release Year
+                $smartphone->sim_count = $row[7]; // SIM Count
+                $smartphone->memory_options = $row[8]; // Memory Options
+                $smartphone->color_options = $row[9]; // Color Options
+                $smartphone->image_url = $row[10]; // Image URL
                 $smartphone->save();
             }
         }

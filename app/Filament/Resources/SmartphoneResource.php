@@ -52,9 +52,10 @@ class SmartphoneResource extends Resource
                 Forms\Components\TextInput::make('color_options')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('image_url')
-                    ->image()
-                    ->required(),
+                Forms\Components\TextInput::make('image_url')
+                    ->required()
+                    ->maxLength(255),
+
             ]);
     }
 
@@ -83,7 +84,7 @@ class SmartphoneResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('color_options')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
+                Tables\Columns\TextColumn::make('image_url'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
